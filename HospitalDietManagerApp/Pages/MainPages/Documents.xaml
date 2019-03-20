@@ -1,0 +1,72 @@
+﻿<Page x:Class="HospitalDietManagerApp.Pages.Documents"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HospitalDietManagerApp.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="Documents">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Name="buttons" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
+            <Button x:Name="wczytaj" Click="wczytaj_Click" Height="35" Margin="0,10,10,0" Width="35" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+                <materialDesign:PackIcon Kind="Check" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+            <Button x:Name="wstecz" Click="wstecz_Click" Height="35" Margin="0,10,10,0" Width="35" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+                <materialDesign:PackIcon Kind="ArrowLeft" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+        </WrapPanel>
+        <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0">
+                <Label Content="Dokument:" Height="25" Margin="0,10,0,0"></Label>
+                <Label Content="Miasto:" Height="25" Margin="0,10,0,0"></Label>
+                <Label Content="Data od:" Height="25" Margin="0,10,0,0"></Label>
+                <Label Content="Data do:" Height="25" Margin="0,10,0,0"></Label>                
+            </StackPanel>
+            <StackPanel  HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1">
+                <ComboBox Name="dokument" Width="325" SelectionChanged="dokument_SelectionChanged" Height="25" Margin="0,10,0,0">
+                    <ComboBoxItem Content="Dekadówka"></ComboBoxItem>
+                    <ComboBoxItem Content="Jadłospis diety"></ComboBoxItem>
+                    <ComboBoxItem Content="Jadłospis dzienny"></ComboBoxItem>
+                </ComboBox>
+                <ComboBox Name="miasto" Width="325" SelectionChanged="miasto_SelectionChanged" Height="25" Margin="0,10,0,0"></ComboBox>
+                <DatePicker Name="data_od" Width="325" Height="25" Margin="0,10,0,0"></DatePicker>
+                <DatePicker Name="data_do" Width="325" Height="25" Margin="0,10,0,0"></DatePicker>                
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

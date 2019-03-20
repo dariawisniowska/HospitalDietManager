@@ -1,0 +1,104 @@
+﻿<Page x:Class="HospitalDietManagerApp.Pages.Recepies"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HospitalDietManagerApp.Pages"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="Recepies">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.15*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="usun" Click="usun_Click" Height="35" Margin="0,10,10,0" Width="35" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <materialDesign:PackIcon Kind="Bin" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Button>
+        <StackPanel Name="posilki" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="10,10,10,10">
+          
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
+                        <Label Content="Nazwa:"></Label>
+                        <TextBox Name="nazwa_sniadanie" Grid.Row="0" Width="500"></TextBox>
+                    </WrapPanel>
+                    <DataGrid Name="sniadanie" Grid.Row="1" ItemsSource="{Binding Product}" AutoGenerateColumns="False" FontSize="9">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nazwa}" Header="Nazwa produktu"/>
+                            <DataGridTextColumn Binding="{Binding masa}" Header="Masa [g]"/>
+                            <DataGridTextColumn Binding="{Binding energia}" Header="Energia [kcal]"/>
+                            <DataGridTextColumn Binding="{Binding bialko}" Header="Białko [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze}" Header="Tłuszcze [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze_nn}" Header="KTN [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany}" Header="Węglowodany ogółem [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany_przyswajalne}" Header="Węglowodany przyswajalne [g]"/>
+                            <DataGridTextColumn Binding="{Binding blonnik}" Header="Błonnik [g]"/>
+                            <DataGridTextColumn Binding="{Binding sod}" Header="Sód [mg]"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>           
+        </StackPanel>
+        <WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="energia" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="DodgerBlue" ToColor="DodgerBlue" />
+                <Label Content="Energia" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="bialko" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="Gold" ToColor="Gold"/>
+                <Label Content="Białko" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="tluszcze" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="Tomato" ToColor="Tomato"/>
+                <Label Content="Tłuszcze" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="ktn" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="Silver" ToColor="Silver"/>
+                <Label Content="Kwasy tłuszczowe" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="9" Height="20"></Label>
+                <Label Content="nasycone" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Height="20"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="weglowodany" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="MediumSeaGreen" ToColor="MediumSeaGreen"/>
+                <Label Content="Węglowodany" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="weglowodany_przyswajalne" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="LightPink" ToColor="LightPink"/>
+                <Label Content="Węglowodany" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="9" Height="20"></Label>
+                <Label Content="przyswajalne" HorizontalAlignment="Center" VerticalAlignment="Top"  FontSize="9" Height="20"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="blonnik" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="LightBlue" ToColor="LightBlue"/>
+                <Label Content="Błonnik" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <lvc:Gauge Name="sod" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="MediumPurple" ToColor="MediumPurple"/>
+                <Label Content="Sód" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+        </WrapPanel>
+        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="3">
+                <Label Content="Receptura"></Label>
+                <ComboBox Name="receptura" Width="375" SelectionChanged="receptura_SelectionChanged"></ComboBox>
+        </WrapPanel>
+    </Grid>
+</Page>

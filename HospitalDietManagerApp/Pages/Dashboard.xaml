@@ -1,0 +1,349 @@
+﻿<Page x:Class="HospitalDietManagerApp.Pages.Dashboard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HospitalDietManagerApp.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="Dashboard" Unloaded="Page_Unloaded">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.05*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+       
+        <lvc:PieChart Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Name="Chart" Series="{Binding SeriesCollection}" InnerRadius="10"></lvc:PieChart>
+        <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Margin="10,0,10,0">
+                <Label Content="Data"></Label>
+                <DatePicker Name="data" Width="150"></DatePicker>
+            </StackPanel>
+            <StackPanel Margin="10,0,10,0">
+                <Label Content="Miasto"></Label>
+                <ComboBox Name="miasto" Width="150" SelectionChanged="miasto_SelectionChanged" Loaded="miasto_Loaded"></ComboBox>
+            </StackPanel>
+            <StackPanel Margin="10,0,10,0">
+                <Label Content="Dieta"></Label>
+                <ComboBox Name="dieta" Width="225" SelectionChanged="dieta_SelectionChanged" Loaded="dieta_Loaded"></ComboBox>
+            </StackPanel>           
+        </WrapPanel>
+        <StackPanel Grid.Column="0" Grid.Row="2" Margin="10,10,10,10">
+            <ComboBox Name="kategoria" SelectionChanged="kategoria_SelectionChanged">
+                <ComboBoxItem Content="Wszystkie kategorie"/>
+                <ComboBoxItem Content="Bakalie, orzechy, ziarna"/>
+                <ComboBoxItem Content="Mięso"/>
+                <ComboBoxItem Content="Przyprawy i zioła"/>
+                <ComboBoxItem Content="Nabiał, jaja"/>
+                <ComboBoxItem Content="Owoce"/>
+                <ComboBoxItem Content="Warzywa"/>
+                <ComboBoxItem Content="Ryby i owoce morza"/>
+                <ComboBoxItem Content="Tłuszcze"/>
+                <ComboBoxItem Content="Słodycze"/>
+                <ComboBoxItem Content="Napoje"/>
+                <ComboBoxItem Content="Zbożowe"/>
+            </ComboBox>
+            <ListBox Name="produkty" Height="200" Margin="0,10,0,0">
+            </ListBox>
+            <WrapPanel Margin="0,10,0,10">
+                <Label Content="Masa [g]:"></Label>
+                <TextBox Name="masa" Width="75"></TextBox>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Button Name="dodaj" Margin="10,0,10,0" Click="dodaj_Click" Height="35" Width="35" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <materialDesign:PackIcon Kind="Plus" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+                <Button x:Name="edytuj" Margin="10,0,10,0" Click="edytuj_Click" Height="35" Width="35" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+            </WrapPanel>
+        </StackPanel>
+        <TabControl Name="posilki" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="10,10,10,10">
+            <TabItem Header="Śniadanie">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Nazwa:"></Label>
+                        <TextBox Name="nazwa_sniadanie" Grid.Row="0" Width="500" Loaded="nazwa_sniadanie_Loaded" TextWrapping="WrapWithOverflow"></TextBox>
+                        <Button x:Name="sniadanie_wyczysc" Click="sniadanie_wyczysc_Click" Height="35" Margin="50,0,0,0" Width="35" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <materialDesign:PackIcon Kind="DeleteSweep" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
+                    </WrapPanel>
+                    <DataGrid Name="sniadanie" Grid.Row="1" ItemsSource="{Binding Product}" AutoGenerateColumns="False" FontSize="11">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nazwa}" Header="Nazwa produktu"/>
+                            <DataGridTextColumn Binding="{Binding masa}" Header="Masa [g]"/>
+                            <DataGridTextColumn Binding="{Binding energia}" Header="Energia [kcal]"/>
+                            <DataGridTextColumn Binding="{Binding bialko}" Header="Białko [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze}" Header="Tłuszcze [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze_nn}" Header="KTN [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany}" Header="Węglowodany ogółem [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany_przyswajalne}" Header="Węglowodany przyswajalne [g]"/>
+                            <DataGridTextColumn Binding="{Binding blonnik}" Header="Błonnik [g]"/>
+                            <DataGridTextColumn Binding="{Binding sod}" Header="Sód [mg]"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="II śniadanie">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Nazwa:"></Label>
+                        <TextBox Name="nazwa_IIsniadanie" Grid.Row="0" Width="500" Loaded="nazwa_IIsniadanie_Loaded" TextWrapping="WrapWithOverflow"></TextBox>
+                        <Button x:Name="IIsniadanie_wyczysc" Click="IIsniadanie_wyczysc_Click" Height="35" Margin="50,0,0,0" Width="35" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <materialDesign:PackIcon Kind="DeleteSweep" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
+                    </WrapPanel>
+                    <DataGrid Name="IIsniadanie" Grid.Row="1" ItemsSource="{Binding Product}" AutoGenerateColumns="False" FontSize="11">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nazwa}" Header="Nazwa produktu"/>
+                            <DataGridTextColumn Binding="{Binding masa}" Header="Masa [g]"/>
+                            <DataGridTextColumn Binding="{Binding energia}" Header="Energia [kcal]"/>
+                            <DataGridTextColumn Binding="{Binding bialko}" Header="Białko [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze}" Header="Tłuszcze [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze_nn}" Header="KTN [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany}" Header="Węglowodany ogółem [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany_przyswajalne}" Header="Węglowodany przyswajalne [g]"/>
+                            <DataGridTextColumn Binding="{Binding blonnik}" Header="Błonnik [g]"/>
+                            <DataGridTextColumn Binding="{Binding sod}" Header="Sód [mg]"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Obiad">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Nazwa:"></Label>
+                        <TextBox Name="nazwa_obiad" Grid.Row="0" Width="500" Loaded="nazwa_obiad_Loaded" TextWrapping="WrapWithOverflow"></TextBox>
+                        <Button x:Name="obiad_wyczysc" Click="obiad_wyczysc_Click" Height="35" Margin="50,0,0,0" Width="35" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <materialDesign:PackIcon Kind="DeleteSweep" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
+                    </WrapPanel>
+                    <DataGrid Name="obiad" Grid.Row="1" ItemsSource="{Binding Product}" AutoGenerateColumns="False" FontSize="11">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nazwa}" Header="Nazwa produktu"/>
+                            <DataGridTextColumn Binding="{Binding masa}" Header="Masa [g]"/>
+                            <DataGridTextColumn Binding="{Binding energia}" Header="Energia [kcal]"/>
+                            <DataGridTextColumn Binding="{Binding bialko}" Header="Białko [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze}" Header="Tłuszcze [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze_nn}" Header="KTN [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany}" Header="Węglowodany ogółem [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany_przyswajalne}" Header="Węglowodany przyswajalne [g]"/>
+                            <DataGridTextColumn Binding="{Binding blonnik}" Header="Błonnik [g]"/>
+                            <DataGridTextColumn Binding="{Binding sod}" Header="Sód [mg]"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Podwieczorek">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Nazwa:"></Label>
+                        <TextBox Name="nazwa_podwieczorek" Grid.Row="0" Width="500" Loaded="nazwa_podwieczorek_Loaded" TextWrapping="WrapWithOverflow"></TextBox>
+                        <Button x:Name="podwieczorek_wyczysc" Click="podwieczorek_wyczysc_Click" Height="35" Margin="50,0,0,0" Width="35" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <materialDesign:PackIcon Kind="DeleteSweep" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
+                    </WrapPanel>
+                    <DataGrid Name="podwieczorek" Grid.Row="1" ItemsSource="{Binding Product}" AutoGenerateColumns="False" FontSize="11">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nazwa}" Header="Nazwa produktu"/>
+                            <DataGridTextColumn Binding="{Binding masa}" Header="Masa [g]"/>
+                            <DataGridTextColumn Binding="{Binding energia}" Header="Energia [kcal]"/>
+                            <DataGridTextColumn Binding="{Binding bialko}" Header="Białko [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze}" Header="Tłuszcze [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze_nn}" Header="KTN [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany}" Header="Węglowodany ogółem [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany_przyswajalne}" Header="Węglowodany przyswajalne [g]"/>
+                            <DataGridTextColumn Binding="{Binding blonnik}" Header="Błonnik [g]"/>
+                            <DataGridTextColumn Binding="{Binding sod}" Header="Sód [mg]"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Kolacja">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Nazwa:"></Label>
+                        <TextBox Name="nazwa_kolacja" Grid.Row="0" Width="500" Loaded="nazwa_kolacja_Loaded" TextWrapping="WrapWithOverflow"></TextBox>
+                        <Button x:Name="kolacja_wyczysc" Click="kolacja_wyczysc_Click" Height="35" Margin="50,0,0,0" Width="35" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <materialDesign:PackIcon Kind="DeleteSweep" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
+                    </WrapPanel>
+                    <DataGrid Name="kolacja" Grid.Row="1" ItemsSource="{Binding Product}" AutoGenerateColumns="False" FontSize="11">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nazwa}" Header="Nazwa produktu"/>
+                            <DataGridTextColumn Binding="{Binding masa}" Header="Masa [g]"/>
+                            <DataGridTextColumn Binding="{Binding energia}" Header="Energia [kcal]"/>
+                            <DataGridTextColumn Binding="{Binding bialko}" Header="Białko [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze}" Header="Tłuszcze [g]"/>
+                            <DataGridTextColumn Binding="{Binding tluszcze_nn}" Header="KTN [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany}" Header="Węglowodany ogółem [g]"/>
+                            <DataGridTextColumn Binding="{Binding weglowodany_przyswajalne}" Header="Węglowodany przyswajalne [g]"/>
+                            <DataGridTextColumn Binding="{Binding blonnik}" Header="Błonnik [g]"/>
+                            <DataGridTextColumn Binding="{Binding sod}" Header="Sód [mg]"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <WrapPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="energia" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="DodgerBlue" ToColor="DodgerBlue" />
+                <Label Content="Energia" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="bialko" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="Gold" ToColor="Gold"/>
+                <Label Content="Białko" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+            <lvc:Gauge Name="tluszcze" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="Tomato" ToColor="Tomato"/>
+                <Label Content="Tłuszcze" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="ktn" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="Silver" ToColor="Silver"/>
+                <Label Content="Kwasy tłuszczowe" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="9" Height="20"></Label>
+                <Label Content="nasycone" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Height="20"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="weglowodany" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="MediumSeaGreen" ToColor="MediumSeaGreen"/>
+                <Label Content="Węglowodany" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="weglowodany_przyswajalne" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="LightPink" ToColor="LightPink"/>
+                <Label Content="Węglowodany" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="9" Height="20"></Label>
+                <Label Content="przyswajalne" HorizontalAlignment="Center" VerticalAlignment="Top"  FontSize="9" Height="20"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                <lvc:Gauge Name="blonnik" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="LightBlue" ToColor="LightBlue"/>
+                <Label Content="Błonnik" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <lvc:Gauge Name="sod" Margin="5" To="100" Value="0" Width="75" Height="50" FromColor="MediumPurple" ToColor="MediumPurple"/>
+                <Label Content="Sód" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+        </WrapPanel>
+        <lvc:PieChart Grid.Column="0" Grid.Row="3" Name="Energia" Series="{Binding EnergiaCollection}" InnerRadius="10"></lvc:PieChart>
+        <StackPanel Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="w_gore" Click="w_gore_Click" Height="35" Margin="0,0,0,10" Width="35" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+                <materialDesign:PackIcon Kind="ArrowUp" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+            <Button x:Name="usun" Click="usun_Click" Height="35" Margin="0,0,0,10" Width="35" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+                <materialDesign:PackIcon Kind="bin" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+            <Button x:Name="w_dol" Click="w_dol_Click" Height="35" Margin="0,0,0,10" Width="35" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="LightGray" StrokeThickness="1" Fill="White"></Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+                <materialDesign:PackIcon Kind="ArrowDown" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>
